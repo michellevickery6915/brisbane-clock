@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brisbane Live Clock & QLD Daylight Savings PSA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --surface-0: #f5f5f5;
+      --surface-1: #ffffff;
+      --surface-2: #f9f9f9;
+      --text-primary: #1a1a1a;
+      --text-secondary: #666666;
+      --text-muted: #999999;
+      --text-accent: #d32f2f;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-accent: #d32f2f;
+      --bg-warning: #fff3e0;
+      --bg-accent: #e3f2fd;
+      --border-strong: rgba(0, 0, 0, 0.15);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --surface-0: #1a1a1a;
+        --surface-1: #2a2a2a;
+        --surface-2: #1f1f1f;
+        --text-primary: #ffffff;
+        --text-secondary: #b0b0b0;
+        --text-muted: #808080;
+        --text-accent: #ff6b6b;
+        --border: rgba(255, 255, 255, 0.1);
+        --border-accent: #ff6b6b;
+        --bg-warning: #332701;
+        --bg-accent: #0d1b2a;
+        --border-strong: rgba(255, 255, 255, 0.15);
+      }
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      background: var(--surface-0);
+      color: var(--text-primary);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin-bottom: 0.5rem;
+    }
+
+    .header p {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .section {
+      background: var(--surface-1);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border: 0.5px solid var(--border);
+    }
+
+    .psa-section {
+      text-align: center;
+    }
+
+    .sunglasses {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      gap: 15px;
+    }
+
+    .sun {
+      width: 50px;
+      height: 50px;
+      background: #FFD700;
+      border-radius: 50%;
+      border: 2px solid #FFA500;
+      position: relative;
+    }
+
+    .sun::before {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 15px;
+      background: #FFA500;
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .sun::after {
+      content: '';
+      position: absolute;
+      width: 4px;
+      height: 15px;
+      background: #FFA500;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .bridge {
+      width: 140px;
+      height: 3px;
+      background: #4A4A4A;
+      border-radius: 2px;
+    }
+
+    .psa-content h2 {
+      font-size: 22px;
+      margin: 1rem 0;
+      color: var(--text-primary);
+    }
+
+    .psa-content p {
+      color: var(--text-secondary);
+      font-size: 14px;
+      margin: 0.5rem 0;
+    }
+
+    .divider {
+      height: 0.5px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .warning-box {
+      background: var(--bg-warning);
+      border: 0.5px solid var(--border-accent);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .warning-box strong {
+      color: var(--text-accent);
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 15px;
+    }
+
+    .warning-box p {
+      color: var(--text-accent);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .clock-section {
+      text-align: center;
+    }
+
+    .clock-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    .clock-display {
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      border: 0.5px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    #time-display {
+      font-size: 64px;
+      font-weight: 500;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    #date-display {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .timezone-info {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .info-card {
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 1rem;
+      border: 0.5px solid var(--border);
+      text-align: left;
+    }
+
+    .info-card-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .info-card-value {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .tip-box {
+      background: var(--bg-accent);
+      border-radius: 8px;
+      padding: 1rem;
+      border: 0.5px solid var(--border-strong);
+    }
+
+    .tip-box-title {
+      font-size: 13px;
+      color: #1976d2;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+
+    .tip-box-text {
+      font-size: 12px;
+      color: #1976d2;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .tip-box-title,
+      .tip-box-text {
+        color: #90caf9;
+      }
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 480px) {
+      #time-display {
+        font-size: 48px;
+      }
+
+      .section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Queensland Time & DST Reminder</h1>
+      <p>Live clock + PSA for Brisbane</p>
+    </div>
+
+    <!-- PSA Section -->
+    <div class="section psa-section">
+      <div class="sunglasses">
+        <div class="sun"></div>
+        <div class="bridge"></div>
+        <div class="sun"></div>
+      </div>
+
+      <div class="psa-content">
+        <h2>Wait! Check your timezone</h2>
+
+        <div class="divider"></div>
+
+        <p style="font-weight: 500; margin: 1rem 0;">Queensland doesn't do daylight savings</p>
+
+        <p>While the rest of Australia shuffles clocks twice a year, we keep our curtains happy and our schedule consistent.</p>
+
+        <div class="warning-box">
+          <strong>⚠️ Check your devices!</strong>
+          <p>Your phone/laptop might think you're in Sydney time. Fix your timezone settings to Australia/Brisbane NOW.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Clock Section -->
+    <div class="section clock-section">
+      <div class="clock-label">Brisbane, Queensland</div>
+
+      <div class="clock-display">
+        <div id="time-display">10:35:42</div>
+        <div id="date-display">Sunday, 4 October 2026</div>
+        <div class="timezone-info">UTC+10:00 (standard time)</div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-label">Time zone</div>
+          <div class="info-card-value">Australia/Brisbane</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">DST Status</div>
+          <div class="info-card-value">Never observed</div>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-box-title">💡 Pro tip</div>
+        <div class="tip-box-text">Make sure your device timezone is set to Australia/Brisbane to avoid the "Sydney time confusion" trap!</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>Timezone data updates every second. Share this link to spread QLD timezone awareness!</p>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      // Create formatter for Brisbane timezone
+      const formatter = new Intl.DateTimeFormat('en-AU', {
+        timeZone: 'Australia/Brisbane',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+
+      const dateFormatter = new Intl.DateTimeFormat('en-AU', {
+        timeZone: 'Australia/Brisbane',
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+
+      const now = new Date();
+      const timeString = formatter.format(now);
+      const dateString = dateFormatter.format(now);
+
+      const timeDisplay = document.getElementById('time-display');
+      const dateDisplay = document.getElementById('date-display');
+
+      if (timeDisplay) timeDisplay.textContent = timeString;
+      if (dateDisplay) dateDisplay.textContent = dateString;
+    }
+
+    // Update immediately
+    updateClock();
+
+    // Update every second
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
