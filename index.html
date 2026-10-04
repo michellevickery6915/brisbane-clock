@@ -12,34 +12,34 @@
     }
 
     :root {
-      --surface-0: #f5f5f5;
-      --surface-1: #ffffff;
-      --surface-2: #f9f9f9;
+      --surface-0: #fefbf8;
+      --surface-1: #fffef9;
+      --surface-2: #fff9f0;
       --text-primary: #1a1a1a;
-      --text-secondary: #666666;
-      --text-muted: #999999;
-      --text-accent: #d32f2f;
-      --border: rgba(0, 0, 0, 0.08);
-      --border-accent: #d32f2f;
-      --bg-warning: #fff3e0;
-      --bg-accent: #e3f2fd;
-      --border-strong: rgba(0, 0, 0, 0.15);
+      --text-secondary: #555555;
+      --text-muted: #888888;
+      --text-accent: #ff4757;
+      --border: rgba(0, 0, 0, 0.06);
+      --border-accent: #ff6b7a;
+      --bg-warning: #ffe8e8;
+      --bg-accent: #fff4e6;
+      --border-strong: rgba(0, 0, 0, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --surface-0: #1a1a1a;
-        --surface-1: #2a2a2a;
-        --surface-2: #1f1f1f;
-        --text-primary: #ffffff;
-        --text-secondary: #b0b0b0;
-        --text-muted: #808080;
-        --text-accent: #ff6b6b;
-        --border: rgba(255, 255, 255, 0.1);
-        --border-accent: #ff6b6b;
-        --bg-warning: #332701;
-        --bg-accent: #0d1b2a;
-        --border-strong: rgba(255, 255, 255, 0.15);
+        --surface-0: #2a2420;
+        --surface-1: #3a322a;
+        --surface-2: #332b23;
+        --text-primary: #fef5f0;
+        --text-secondary: #d4b5a0;
+        --text-muted: #a89080;
+        --text-accent: #ff6b7a;
+        --border: rgba(255, 255, 255, 0.08);
+        --border-accent: #ff8a99;
+        --bg-warning: #4d3a28;
+        --bg-accent: #3d3228;
+        --border-strong: rgba(255, 255, 255, 0.12);
       }
     }
 
@@ -62,8 +62,9 @@
     }
 
     .header h1 {
-      font-size: 28px;
+      font-size: 26px;
       margin-bottom: 0.5rem;
+      font-weight: 600;
     }
 
     .header p {
@@ -274,12 +275,48 @@
     }
 
     @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+
+      .header h1 {
+        font-size: 24px;
+      }
+
+      .header p {
+        font-size: 13px;
+      }
+
       #time-display {
         font-size: 48px;
       }
 
       .section {
-        padding: 1.5rem;
+        padding: 1.2rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .psa-content h2 {
+        font-size: 18px;
+      }
+
+      .psa-content p,
+      .warning-box p {
+        font-size: 13px;
+      }
+
+      .info-grid {
+        gap: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .info-card {
+        padding: 0.8rem;
+      }
+
+      .footer {
+        font-size: 11px;
+        margin-top: 1.5rem;
       }
     }
   </style>
@@ -287,8 +324,8 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>PSA for Queensland</h1>
-      <p>We don't employ daylight savings to keep our curtains unfaded</p>
+      <h1>🌞 PSA: Check Your Timezone!</h1>
+      <p>Queensland protects curtains. Check your device. (Seriously, do it now.)</p>
     </div>
 
     <!-- PSA Section -->
@@ -300,17 +337,17 @@
       </div>
 
       <div class="psa-content">
-        <h2>Wait! Check your timezone</h2>
+        <h2>🚨 STOP! Check your timezone first!</h2>
 
         <div class="divider"></div>
 
-        <p style="font-weight: 500; margin: 1rem 0;">Queensland doesn't employ daylight savings</p>
+        <p style="font-weight: 500; margin: 1rem 0;">Why? Because our curtains matter 🪟</p>
 
-        <p>We refuse to employ daylight savings because we don't want the additional sunlight fading our curtains. Remember to check your device timezone.</p>
+        <p>Queensland said NO to daylight savings. Why? To protect our beautiful curtains from fading in all that extra Aussie sun. We're not changing our clocks for ANYONE.</p>
 
         <div class="warning-box">
-          <strong>⚠️ Check your devices!</strong>
-          <p>Your phone/laptop might think you're in Sydney time. Fix your timezone settings to Australia/Brisbane NOW.</p>
+          <strong>⚠️ Real talk: Your phone is probably wrong!</strong>
+          <p>Seriously, your device thinks it's in Sydney time. Go fix your timezone to Australia/Brisbane right now before you're late to stuff.</p>
         </div>
       </div>
     </div>
@@ -337,13 +374,13 @@
       </div>
 
       <div class="tip-box">
-        <div class="tip-box-title">💡 Pro tip</div>
-        <div class="tip-box-text">Make sure your device timezone is set to Australia/Brisbane to avoid the "Sydney time confusion" trap!</div>
+        <div class="tip-box-title">💡 Life hack: Brisbane Time = Right Time</div>
+        <div class="tip-box-text">Set your device to Australia/Brisbane and never be confused again. We've got it locked in at UTC+10 all year, no exceptions! 🔒</div>
       </div>
     </div>
 
     <div class="footer">
-      <p>Timezone data updates every second. Share this link to spread QLD timezone awareness!</p>
+      <p>⏰ Updates every second. Share this with someone who's always late. They probably have the wrong timezone. 😅</p>
     </div>
   </div>
 
